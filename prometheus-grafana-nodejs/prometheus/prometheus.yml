@@ -27,4 +27,4 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets:
-          - 172.21.0.3:8201
+          - 172.22.0.2:8201
