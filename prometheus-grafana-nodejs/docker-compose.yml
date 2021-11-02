@@ -1,16 +1,18 @@
-version: '3.9'
+version: "3.9"
 services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - "--config.file=/etc/prometheus/prometheus.yml"
     ports:
       - 9090:9090
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus
       - prom_data:/prometheus
+    networks:
+      - share
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -22,6 +24,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
+    networks:
+      - share
   nodejs:
     container_name: nodejs
     build: nodejs
@@ -30,5 +34,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./nodejs:/usr/src/app
+    networks:
+      - share
 volumes:
   prom_data:
+networks:
+  share:
+    driver: bridge
